@@ -124,7 +124,7 @@ if __name__ == '__main__':
     parser.add_argument('--config', type=str, default='configs/simclr_cifar.yaml', help='配置文件路径')
     args = parser.parse_args()
 
-    with open(args.config, 'r') as f:
+    with open(args.config, 'r', encoding='utf-8') as f:
         config = yaml.safe_load(f)
 
     # 创建必要的目录
