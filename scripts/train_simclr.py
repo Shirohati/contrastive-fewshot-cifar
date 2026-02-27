@@ -20,6 +20,8 @@ from datasets.simclr_augment import SimCLRTransform
 from datasets.pretrain_dataset import PretrainDataset
 
 def train(config):
+    print("配置内容:", config)
+    print("weight_decay 类型:", type(config['weight_decay']), "值:", config['weight_decay'])
     # 设备
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
@@ -49,9 +51,10 @@ def train(config):
     # 优化器
     optimizer = optim.SGD(
         list(encoder.parameters()) + list(projector.parameters()),
-        lr=config['lr'],
-        momentum=config['momentum'],
-        weight_decay=config['weight_decay']
+        lr=float(config['lr']),                # 确保是浮点数
+        momentum=float(config['momentum']),     # 确保是浮点数
+        weight_decay=float(config['weight_decay']),  # 关键：将字符串转浮点数
+        # 如果还有别的数值参数，也加上 float()
     )
 
     # 学习率调度（余弦退火）
