@@ -1,0 +1,24 @@
+# 数据
+data_root: './data'
+image_size: 32
+
+# 模型
+encoder_dim: 512          # ResNet18 输出特征维度
+proj_hidden_dim: 512      # 投影头隐藏层维度
+proj_output_dim: 128      # 投影输出维度
+
+# 训练
+batch_size: 256
+epochs: 400               # 可以跑400轮
+lr: 0.06                  # 学习率 (batch_size=256时建议用0.06)
+momentum: 0.9
+weight_decay: 1e-4
+temperature: 0.5
+
+# 系统
+num_workers: 4            # 数据加载线程数
+save_every: 50            # 每50轮保存一次检查点
+
+# 日志和检查点目录
+log_dir: './experiments/simclr/logs'
+ckpt_dir: './experiments/simclr/checkpoints'
