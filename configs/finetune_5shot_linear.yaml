@@ -1,0 +1,13 @@
+data_root: './data'
+fewshot_split: './data/splits/fewshot_5shot.json'
+encoder_dim: 512
+pretrained: true
+pretrained_path: './experiments/simclr/checkpoints/simclr_epoch400.pth'   # 改为你实际的最佳模型路径
+mode: 'linear'
+batch_size: 64
+epochs: 100
+lr: 0.01
+momentum: 0.9
+weight_decay: 1e-4
+num_workers: 4
+save_dir: './experiments/finetune/5shot_linear'
