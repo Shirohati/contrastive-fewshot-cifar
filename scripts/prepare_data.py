@@ -11,7 +11,7 @@ torch.manual_seed(42)
 
 # 参数设置
 data_dir = './data'          # 数据集存放位置
-K_shot = 5                   # 每个类别选多少张用于少样本
+K_shot = 10                   # 每个类别选多少张用于少样本
 output_dir = './data/splits' # 划分文件输出目录
 
 # 创建输出目录
