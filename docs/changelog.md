@@ -1,4 +1,13 @@
 # 每日主要进度
+*2026-03-09*
+- 完成第四阶段的脚本配置
+    | 文件路径 | 功能描述 |
+    |----------|----------|
+    | `scripts/plot_results.py` | 绘制对比柱状图，直观展示监督基线、线性评估、全微调在不同shot下的准确率，保存为 `docs/figures/comparison.png`。 |
+    | `scripts/tsne_visualize.py` | 加载预训练编码器，提取CIFAR-10测试集特征，使用t-SNE降维至2D并可视化，保存为 `docs/figures/tsne_pretrained.png`。 |
+    | `docs/figures/comparison.png` | 对比柱状图。 |
+    | `docs/figures/tsne_pretrained.png` | t-SNE特征分布图。 |
+- 新增code_analysis.ipynb
 *2026-03-03*
 - 在deepseek帮助下完成了第三阶段的代码文件
     | 文件路径 | 功能描述 |
