@@ -4,7 +4,7 @@ from torchvision.models import resnet18, ResNet18_Weights
 class Encoder(nn.Module):
     """编码器：返回图像的特征向量（去掉最后的分类层）"""
     def __init__(self, pretrained=False):
-        super().__init__()
+        super().__init__()#父类初始化
         # 加载标准的resnet18，不使用预训练权重（因为我们要自监督训练）
         resnet = resnet18(weights=ResNet18_Weights.IMAGENET1K_V1 if pretrained else None)
         # 去掉最后的全连接层和池化层？实际上resnet18最后是 avgpool + fc，我们需要保留avgpool的输出
