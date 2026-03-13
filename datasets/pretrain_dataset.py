@@ -5,16 +5,16 @@ import os
 
 class PretrainDataset(Dataset):
     """用于SimCLR预训练的数据集，返回两个增强视图"""
-    def __init__(self, root='./data', transform=None):
+    def __init__(self, root='./data', transform=None):#这里的None代表是否调用了一个可调用对象，默认为None
         self.data = CIFAR10(root=root, train=True, download=False)  # 假设数据已存在，不自动下载
         self.transform = transform
 
     def __len__(self):
         return len(self.data)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx):#规定了dataloader读取的单个样本是什么
         img, _ = self.data[idx]  # 忽略标签
-        if self.transform:
+        if self.transform: #如果调用了可调用对象
             view1, view2 = self.transform(img)  # 返回两个视图
         else:
             view1, view2 = img, img

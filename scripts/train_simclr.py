@@ -19,7 +19,7 @@ from losses.nt_xent import NTXentLoss
 from datasets.simclr_augment import SimCLRTransform
 from datasets.pretrain_dataset import PretrainDataset
 
-def train(config):
+def train(config): #config是参数文件，这里是simclr_cifar.yaml
     print("配置内容:", config)
     print("weight_decay 类型:", type(config['weight_decay']), "值:", config['weight_decay'])
     # 设备
@@ -34,7 +34,7 @@ def train(config):
     loader = DataLoader(
         dataset,
         batch_size=config['batch_size'],
-        shuffle=True,
+        shuffle=True, #打乱顺序,它会在每个 epoch 开始前重新生成一个索引顺序
         num_workers=config['num_workers'],
         pin_memory=True,
         drop_last=True
