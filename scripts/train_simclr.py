@@ -27,8 +27,8 @@ def train(config): #config是参数文件，这里是simclr_cifar.yaml
     print(f"Using device: {device}")
 
     # 数据增强和数据集
-    transform = SimCLRTransform(size=config['image_size'])
-    dataset = PretrainDataset(root=config['data_root'], transform=transform)
+    transform = SimCLRTransform(size=config['image_size'])#定义如何数据增强
+    dataset = PretrainDataset(root=config['data_root'], transform=transform)#引入数据
 
     # 数据加载器
     loader = DataLoader(
@@ -73,8 +73,8 @@ def train(config): #config是参数文件，这里是simclr_cifar.yaml
         projector.train()
         total_loss = 0.0
 
-        pbar = tqdm(loader, desc=f"Epoch {epoch}/{config['epochs']}")
-        for view1, view2 in pbar:
+        pbar = tqdm(loader, desc=f"Epoch {epoch}/{config['epochs']}")#调用loader，loader调用PretrainDataset的__getitem__，将数据集进行数据增强并分为两个view
+        for view1, view2 in pbar: #在这里遍历一个epoch
             view1 = view1.to(device)
             view2 = view2.to(device)
 
@@ -90,7 +90,7 @@ def train(config): #config是参数文件，这里是simclr_cifar.yaml
             # 反向传播
             optimizer.zero_grad()
             loss.backward()
-            optimizer.step()
+            optimizer.step()#在这里进行参数更新，每个batch更新一次
 
             total_loss += loss.item()
             global_step += 1
