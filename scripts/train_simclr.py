@@ -28,7 +28,7 @@ def train(config): #config是参数文件，这里是simclr_cifar.yaml
 
     # 数据增强和数据集
     transform = SimCLRTransform(size=config['image_size'])#定义如何数据增强
-    dataset = PretrainDataset(root=config['data_root'], transform=transform)#引入数据
+    dataset = PretrainDataset(root=config['data_root'], transform=transform)#引入数据的同时将数据转化成可以使用的结构
 
     # 数据加载器
     loader = DataLoader(
@@ -37,7 +37,7 @@ def train(config): #config是参数文件，这里是simclr_cifar.yaml
         shuffle=True, #打乱顺序,它会在每个 epoch 开始前重新生成一个索引顺序
         num_workers=config['num_workers'],
         pin_memory=True,
-        drop_last=True
+        drop_last=True#丢弃最后一个批次中不足构成一个batch的数据
     )
 
     # 模型
@@ -50,11 +50,11 @@ def train(config): #config是参数文件，这里是simclr_cifar.yaml
 
     # 优化器
     optimizer = optim.SGD(
-        list(encoder.parameters()) + list(projector.parameters()),
-        lr=float(config['lr']),                # 确保是浮点数
-        momentum=float(config['momentum']),     # 确保是浮点数
-        weight_decay=float(config['weight_decay']),  # 关键：将字符串转浮点数
-        # 如果还有别的数值参数，也加上 float()
+        list(encoder.parameters()) + list(projector.parameters()),# 规定了需要优化的参数
+        lr=float(config['lr']),         #学习率       
+        momentum=float(config['momentum']),    #设置动量：将参数的所有历史梯度作为一个权重累加到当前梯度上
+                                                #使得梯度在很小时也能变化 
+        weight_decay=float(config['weight_decay']),  #L2正则化
     )
 
     # 学习率调度（余弦退火）
@@ -74,7 +74,7 @@ def train(config): #config是参数文件，这里是simclr_cifar.yaml
         total_loss = 0.0
 
         pbar = tqdm(loader, desc=f"Epoch {epoch}/{config['epochs']}")#调用loader，loader调用PretrainDataset的__getitem__，将数据集进行数据增强并分为两个view
-        for view1, view2 in pbar: #在这里遍历一个epoch
+        for view1, view2 in pbar: #在这里遍历一个epoch，每次循环从loader中取一个batch
             view1 = view1.to(device)
             view2 = view2.to(device)
 
@@ -89,8 +89,8 @@ def train(config): #config是参数文件，这里是simclr_cifar.yaml
 
             # 反向传播
             optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()#在这里进行参数更新，每个batch更新一次
+            loss.backward()# 计算所有训练参数的梯度，存储在每个参数的.grad变量中
+            optimizer.step()#读取.grad，优化器根据规定的策略通过.grad来更新参数的值
 
             total_loss += loss.item()
             global_step += 1

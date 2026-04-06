@@ -12,7 +12,7 @@ class PretrainDataset(Dataset):
     def __len__(self):
         return len(self.data)
 
-    def __getitem__(self, idx):#规定了dataloader读取的单个样本是什么
+    def __getitem__(self, idx):#规定了dataloader从dataset的单个索引读取到的数据，这里一个索引对应了两个view
         img, _ = self.data[idx]  # 忽略标签
         if self.transform: #如果调用了可调用对象
             view1, view2 = self.transform(img)  # 返回两个视图
